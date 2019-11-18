@@ -3,9 +3,10 @@
  */
 package it.fpagano.coderetreat;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static it.fpagano.coderetreat.Cell.LIVE;
+import static it.fpagano.coderetreat.Cell.DEAD;
+import static java.util.Collections.emptySet;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,15 +14,38 @@ import org.junit.jupiter.api.Test;
 class AppTest {
 
     @Test
-    @DisplayName("first test")
-    void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+    @DisplayName("ALIVE cell is represented with a *")
+    void whenCellIsAliveThenItIsATimesSymbol() {
+        assertEquals("*", App.show.apply(LIVE));
     }
 
     @Test
-    @DisplayName("assert that hamcrest is available")
-    void assertThatHamcrestIsAvailable() {
-        assertThat(true, is(true));
+    @DisplayName("ALIVE cell is represented with a *")
+    void whenCellIsDeadThenItIsADotSymbol() {
+        assertEquals(".", App.show.apply(DEAD));
+    }
+
+    @Test
+    @DisplayName("DEAD cell with no neighborn is still dead")
+    void test() {
+        assertEquals(DEAD, App.rule.apply(DEAD, 0));
+    }
+
+    @Test
+    @DisplayName("Any live cell with two or three neighbors survives.")
+    void anyLiveCellWithTwoOrThreeNeighborsSurvives() {
+        assertEquals(LIVE, App.rule.apply(DEAD, 0));
+    }
+
+    @Test
+    @DisplayName("Any dead cell with three live neighbors becomes a live cell.")
+    void anyDeadCellWithThreeLiveNeighborsBecomesALiveCell() {
+        assertEquals(LIVE, App.rule.apply(DEAD, 3));
+    }
+
+    @Test
+    @DisplayName("All other live cells die in the next generation. Similarly, all other dead cells stay dead.")
+    void allOtherLiveCellsDieInTheNextGenerationSimilarlyAllOtherDeadCellsStaydead() {
+
     }
 }

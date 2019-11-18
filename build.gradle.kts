@@ -32,8 +32,8 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_12
-    targetCompatibility = JavaVersion.VERSION_12
+    sourceCompatibility = JavaVersion.current()
+    targetCompatibility = JavaVersion.current()
 }
 
 application {
@@ -41,7 +41,11 @@ application {
     mainClassName = "it.fpagano.coderetreat.App"
 }
 
-val test by tasks.getting(Test::class) {
-    // Use junit platform for unit tests
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("--enable-preview")
+}
+
+tasks.test {
     useJUnitPlatform()
+    jvmArgs("--enable-preview")
 }

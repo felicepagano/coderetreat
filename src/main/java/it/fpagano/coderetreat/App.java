@@ -3,12 +3,38 @@
  */
 package it.fpagano.coderetreat;
 
+import static it.fpagano.coderetreat.Cell.DEAD;
+import static it.fpagano.coderetreat.Cell.LIVE;
+import static java.util.stream.IntStream.range;
+
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
 public class App {
-    public String getGreeting() {
-        return "Hello world.";
-    }
+
+    public static final Function<Cell, String> show = cell -> switch (cell) {
+        case LIVE -> "*";
+        case DEAD -> ".";
+    };
+
+    public static final Function<String, Cell> status = symbol -> switch (symbol) {
+        case "*" -> LIVE;
+        case "." -> DEAD;
+        default -> throw new IllegalStateException("Unexpected value: " + symbol);
+    };
+
+    public static final BiFunction<Cell, Integer, Cell> rule = (cell, cells) -> switch (cell) {
+        case LIVE -> range(2, 4).anyMatch(i -> i == cells) ? LIVE : DEAD;
+        case DEAD -> cells == 3 ? LIVE : DEAD;
+    };
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        String scenario = """
+        . . .
+        * * *
+        . . .
+        """;
+
+        System.out.println(scenario);
     }
 }
