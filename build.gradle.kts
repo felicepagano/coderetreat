@@ -23,6 +23,7 @@ dependencies {
 
     // Use JUnit Jupiter API for testing.
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.5.2")
     testImplementation("org.hamcrest:hamcrest:2.2")
     //testCompile
 
